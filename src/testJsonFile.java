@@ -23,7 +23,7 @@ public class testJsonFile {
         try {
  
         	String JsonContext = new Util().
-        			ReadFile("E:\\EclipseWorkspace\\Ecobee\\src\\test_results.json");
+        			ReadFile("E:\\EclipseWorkspace\\JavaFile\\src\\test_results.json");
         	JSONObject jsonObject = new JSONObject(JsonContext);
         	JSONArray  test_suites = jsonObject.getJSONArray("test_suites");
              
@@ -66,26 +66,8 @@ public class testJsonFile {
             System.out.println("Test suite name : " + suite_name);  
             //Print out the total number of tests that passed and their details             
             System.out.println("the total number of tests that passed:"+number_pass);
-        Collections.sort( pass_results, new Comparator<JSONObject>() {
+        Collections.sort( pass_results, new Utilcompare ());              
                 
-                private static final String KEY_NAME = "test_name";
-                @Override
-                public int compare(JSONObject a, JSONObject b) {
-                    String valA = new String();
-                    String valB = new String();
-
-                    try {
-                        valA = (String) a.get(KEY_NAME);
-                        valB = (String) b.get(KEY_NAME);
-                    } 
-                    catch (JSONException e) {
-                    	e.printStackTrace(); 
-                    }
-
-                    return valA.compareTo(valB);
-                    
-                }
-            });              
 			 				 
             for(int i=0;i<pass_results.size();i++){
             System.out.println(pass_results.get(i));
@@ -93,26 +75,7 @@ public class testJsonFile {
             }
             //Print out the total number of tests that failed and their details            
             System.out.println("the total number of tests that failed :"+number_fail);
-            Collections.sort( fail_results, new Comparator<JSONObject>() {
-                
-                private static final String KEY_NAME = "test_name";
-                @Override
-                public int compare(JSONObject a, JSONObject b) {
-                    String valA = new String();
-                    String valB = new String();
-
-                    try {
-                        valA = (String) a.get(KEY_NAME);
-                        valB = (String) b.get(KEY_NAME);
-                    } 
-                    catch (JSONException e) {
-                    	e.printStackTrace(); 
-                    }
-
-                    return valA.compareTo(valB);
-                    
-                }
-            });              
+            Collections.sort( fail_results, new Utilcompare ());
             for(int i=0;i<fail_results.size();i++){
                 System.out.println(fail_results.get(i));
                 System.out.println("********************");
@@ -161,3 +124,24 @@ class Util {
 	   }
 
 	}
+
+class Utilcompare implements Comparator<JSONObject>{ 
+    
+    private static final String KEY_NAME = "test_name";
+    @Override
+    public int compare(JSONObject a, JSONObject b) {
+        String valA = new String();
+        String valB = new String();
+
+        try {
+            valA = (String) a.get(KEY_NAME);
+            valB = (String) b.get(KEY_NAME);
+        } 
+        catch (JSONException e) {
+        	e.printStackTrace(); 
+        }
+
+        return valA.compareTo(valB);
+        
+    }
+};          
